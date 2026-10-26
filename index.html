@@ -60,38 +60,47 @@
             justify-content: center;
             overflow: hidden;
             position: relative;
-            aspect-ratio: 1;
+            min-height: 0;
         }
 
         canvas {
             display: block;
             max-width: 100%;
             max-height: 100%;
+            touch-action: none;
         }
 
         .control-panel {
             flex: 0 0 auto;
-            width: 280px;
+            width: 320px;
             background: #f8f9fa;
             border-radius: 10px;
             padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
             overflow-y: auto;
             max-height: 100%;
         }
 
         .equation-box {
             background: white;
-            padding: 20px;
+            padding: 16px;
             border-radius: 8px;
             border: 3px solid #2c3e50;
             text-align: center;
-            font-size: clamp(16px, 2.5vw, 20px);
+            font-size: clamp(16px, 2.5vw, 22px);
             font-weight: bold;
             color: #2c3e50;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .equation-sub {
+            display: block;
+            margin-top: 4px;
+            font-size: 0.7em;
+            font-weight: normal;
+            color: #5d6d7e;
         }
 
         .slider-group {
@@ -118,6 +127,11 @@
 
         .slider-container:last-child {
             margin-bottom: 0;
+        }
+
+        .slider-container label {
+            min-width: 60px;
+            font-size: clamp(12px, 1.8vw, 14px);
         }
 
         input[type="range"] {
@@ -148,19 +162,83 @@
             border: none;
         }
 
+        input[type="range"]:focus-visible {
+            outline: 2px solid #3498db;
+            outline-offset: 4px;
+        }
+
         .slider-value {
-            min-width: 40px;
+            min-width: 44px;
             text-align: center;
             font-weight: bold;
             color: #2c3e50;
             font-size: clamp(12px, 1.8vw, 14px);
         }
 
+        /* Trig ratio section */
+        .trig-group {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .theta-readout {
+            font-size: clamp(18px, 2.4vw, 22px);
+            font-weight: bold;
+            color: #27ae60;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .trig-row {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 0;
+            border-top: 1px solid #e5e8eb;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+            font-size: clamp(13px, 1.8vw, 15px);
+            color: #2c3e50;
+        }
+
+        .trig-name {
+            font-weight: bold;
+            color: #2c3e50;
+            min-width: 3.4em;
+        }
+
+        .frac {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.15;
+        }
+
+        .frac > span {
+            padding: 0 3px;
+        }
+
+        .frac > span + span {
+            border-top: 2px solid currentColor;
+        }
+
+        .ratio-letters { color: #5d6d7e; }
+        .ratio-nums { color: #d68910; font-weight: bold; }
+        .ratio-dec { color: #9b59b6; font-weight: bold; font-size: 1.1em; }
+
+        .scale-note {
+            margin-top: 10px;
+            font-size: clamp(12px, 1.6vw, 13px);
+            color: #5d6d7e;
+            line-height: 1.4;
+        }
+
         /* Responsive Styles */
         @media (max-width: 1024px) and (min-width: 768px) {
-            body {
-                padding: 25px;
-            }
+            body { padding: 25px; }
 
             .container {
                 max-height: calc(100vh - 50px);
@@ -170,21 +248,19 @@
             }
 
             .control-panel {
-                width: 240px;
+                width: 270px;
                 padding: 15px;
             }
         }
 
         @media (max-width: 767px) and (orientation: portrait) {
-            body {
-                padding: 25px;
-            }
+            body { padding: 15px; }
 
             .container {
                 flex-direction: column;
-                max-height: calc(100vh - 50px);
-                height: calc(100vh - 50px);
-                padding: 15px;
+                max-height: calc(100vh - 30px);
+                height: calc(100vh - 30px);
+                padding: 12px;
                 gap: 10px;
             }
 
@@ -197,15 +273,13 @@
                 flex: 0 0 auto;
                 width: 100%;
                 max-height: 50vh;
-                padding: 15px;
-                gap: 15px;
+                padding: 12px;
+                gap: 12px;
             }
         }
 
         @media (max-width: 900px) and (orientation: landscape) {
-            body {
-                padding: 15px;
-            }
+            body { padding: 15px; }
 
             .container {
                 max-height: calc(100vh - 30px);
@@ -215,24 +289,17 @@
             }
 
             .control-panel {
-                width: 220px;
+                width: 250px;
                 padding: 10px;
                 gap: 10px;
             }
 
-            .equation-box {
-                padding: 12px;
-            }
-
-            .slider-group {
-                padding: 10px;
-            }
+            .equation-box { padding: 12px; }
+            .slider-group, .trig-group { padding: 10px; }
         }
 
         @media (max-height: 700px) {
-            body {
-                padding: 20px;
-            }
+            body { padding: 20px; }
 
             .container {
                 max-height: calc(100vh - 40px);
@@ -241,9 +308,7 @@
         }
 
         @media (max-height: 600px) and (orientation: landscape) {
-            body {
-                padding: 10px;
-            }
+            body { padding: 10px; }
 
             .container {
                 max-height: calc(100vh - 20px);
@@ -253,7 +318,7 @@
             }
 
             .control-panel {
-                width: 200px;
+                width: 230px;
                 padding: 8px;
                 gap: 8px;
             }
@@ -271,26 +336,33 @@
 
         <div class="control-panel">
             <div class="equation-box" id="equationBox">
-                2x² + 2y² = 18
+                x² + y² = 5²
+                <span class="equation-sub">x² + y² = 25</span>
             </div>
 
             <div class="slider-group">
-                <span class="slider-label">Coefficients & Constant</span>
+                <span class="slider-label">Scale</span>
                 <div class="slider-container">
-                    <label style="min-width: 60px; font-size: clamp(12px, 1.8vw, 14px);">x² coeff:</label>
-                    <input type="range" id="xCoeff" min="1" max="10" value="2" step="0.5">
-                    <span class="slider-value" id="xCoeffValue">2</span>
+                    <label for="scale">r =</label>
+                    <input type="range" id="scale" min="1" max="9" value="5" step="0.5">
+                    <span class="slider-value" id="scaleValue">5</span>
                 </div>
                 <div class="slider-container">
-                    <label style="min-width: 60px; font-size: clamp(12px, 1.8vw, 14px);">y² coeff:</label>
-                    <input type="range" id="yCoeff" min="1" max="10" value="2" step="0.5">
-                    <span class="slider-value" id="yCoeffValue">2</span>
+                    <label for="theta">θ =</label>
+                    <input type="range" id="theta" min="0" max="360" value="37" step="1">
+                    <span class="slider-value" id="thetaValue">37°</span>
                 </div>
-                <div class="slider-container">
-                    <label style="min-width: 60px; font-size: clamp(12px, 1.8vw, 14px);">Constant:</label>
-                    <input type="range" id="constant" min="1" max="100" value="18" step="1">
-                    <span class="slider-value" id="constantValue">18</span>
-                </div>
+            </div>
+
+            <div class="trig-group">
+                <span class="slider-label">Trig Ratios</span>
+                <div class="theta-readout" id="thetaReadout">θ = 37°</div>
+
+                <div class="trig-row" id="cosRow"></div>
+                <div class="trig-row" id="sinRow"></div>
+                <div class="trig-row" id="tanRow"></div>
+
+                <p class="scale-note">Change the scale and watch: x, y and r all grow or shrink together, so each ratio simplifies to the same number for the same θ.</p>
             </div>
         </div>
     </div>
@@ -298,23 +370,45 @@
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
-        let dragAngle = Math.PI / 4; // Angle for positioning point on ellipse
+        const scaleSlider = document.getElementById('scale');
+        const thetaSlider = document.getElementById('theta');
+        let thetaDeg = 37;
         let isDragging = false;
 
         // Colorblind-friendly palette
         const colors = {
-            grid: '#95a5a6',
+            grid: '#c8cfd3',
             axis: '#2c3e50',
-            curve: '#3498db', // Blue
-            point: '#e74c3c', // Red-orange
-            radius: '#9b59b6', // Purple
-            triangle: '#d68910' // Darker orange
+            curve: '#3498db',    // Blue
+            point: '#e74c3c',    // Red-orange
+            radius: '#9b59b6',   // Purple
+            triangle: '#d68910', // Darker orange
+            angle: '#27ae60'     // Green
         };
+
+        // Format a number: drop trailing zeros, max 2 decimals
+        function fmt(n, places = 2) {
+            const v = Math.abs(n) < 1e-9 ? 0 : n;
+            return parseFloat(v.toFixed(places)).toString();
+        }
+
+        function getR() { return parseFloat(scaleSlider.value); }
+
+        function getPoint() {
+            const r = getR();
+            const t = thetaDeg * Math.PI / 180;
+            // Snap tiny values to 0 so 90°, 180°, 270° read cleanly
+            let x = r * Math.cos(t);
+            let y = r * Math.sin(t);
+            if (Math.abs(x) < 1e-9) x = 0;
+            if (Math.abs(y) < 1e-9) y = 0;
+            return { r, x, y };
+        }
 
         function resizeCanvas() {
             const container = canvas.parentElement;
             const rect = container.getBoundingClientRect();
-            const size = Math.min(rect.width, rect.height) - 20;
+            const size = Math.max(100, Math.min(rect.width, rect.height) - 20);
             canvas.width = size;
             canvas.height = size;
             draw();
@@ -323,12 +417,27 @@
         window.addEventListener('resize', resizeCanvas);
         window.addEventListener('load', resizeCanvas);
 
-        function updateEquation() {
-            const equationBox = document.getElementById('equationBox');
-            const xCoeff = parseFloat(document.getElementById('xCoeff').value);
-            const yCoeff = parseFloat(document.getElementById('yCoeff').value);
-            const constant = parseFloat(document.getElementById('constant').value);
-            equationBox.innerHTML = `${xCoeff}x² + ${yCoeff}y² = ${constant}`;
+        function updatePanel() {
+            const { r, x, y } = getPoint();
+            const rSq = r * r;
+
+            document.getElementById('equationBox').innerHTML =
+                `x² + y² = ${fmt(r)}²<span class="equation-sub">x² + y² = ${fmt(rSq)}</span>`;
+            document.getElementById('scaleValue').textContent = fmt(r);
+            document.getElementById('thetaValue').textContent = `${thetaDeg}°`;
+            document.getElementById('thetaReadout').textContent = `θ = ${thetaDeg}°`;
+
+            const xs = fmt(x), ys = fmt(y), rs = fmt(r);
+
+            const frac = (top, bottom, cls) =>
+                `<span class="frac ${cls}"><span>${top}</span><span>${bottom}</span></span>`;
+            const row = (name, a, b, numA, numB, dec) =>
+                `<span class="trig-name">${name}</span> = ${frac(a, b, 'ratio-letters')} = ${frac(numA, numB, 'ratio-nums')} = <span class="ratio-dec">${dec}</span>`;
+
+            document.getElementById('cosRow').innerHTML = row('cos θ', 'x', 'r', xs, rs, fmt(x / r, 3));
+            document.getElementById('sinRow').innerHTML = row('sin θ', 'y', 'r', ys, rs, fmt(y / r, 3));
+            const tanDec = x === 0 ? 'undefined' : fmt(y / x, 3);
+            document.getElementById('tanRow').innerHTML = row('tan θ', 'y', 'x', ys, xs, tanDec);
         }
 
         function drawGrid() {
@@ -341,7 +450,6 @@
             ctx.strokeStyle = colors.grid;
             ctx.lineWidth = 1;
 
-            // Grid lines
             for (let i = -10; i <= 10; i++) {
                 ctx.beginPath();
                 ctx.moveTo(centerX + i * scale, 0);
@@ -354,7 +462,6 @@
                 ctx.stroke();
             }
 
-            // Axes
             ctx.strokeStyle = colors.axis;
             ctx.lineWidth = 2;
             ctx.beginPath();
@@ -364,7 +471,6 @@
             ctx.lineTo(w, centerY);
             ctx.stroke();
 
-            // Axis labels
             ctx.fillStyle = colors.axis;
             ctx.font = `${Math.max(10, scale * 0.4)}px Arial`;
             ctx.textAlign = 'center';
@@ -381,160 +487,112 @@
             ctx.font = `bold ${fontSize}px Arial`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            
+
             const textMetrics = ctx.measureText(text);
             const textHeight = fontSize + 4;
             const padding = 3;
-            
-            // White background
+
             ctx.fillStyle = '#f8f9fa';
-            ctx.fillRect(x - textMetrics.width / 2 - padding, y - textHeight / 2 - padding, 
+            ctx.fillRect(x - textMetrics.width / 2 - padding, y - textHeight / 2 - padding,
                         textMetrics.width + padding * 2, textHeight + padding * 2);
-            
-            // Text
+
             ctx.fillStyle = color;
             ctx.fillText(text, x, y);
         }
 
-        function drawEllipse() {
+        function drawCircle() {
             const w = canvas.width;
             const h = canvas.height;
             const centerX = w / 2;
             const centerY = h / 2;
             const scale = Math.min(w, h) / 20;
+            const { r, x, y } = getPoint();
+            const t = thetaDeg * Math.PI / 180;
 
-            const xCoeff = parseFloat(document.getElementById('xCoeff').value);
-            const yCoeff = parseFloat(document.getElementById('yCoeff').value);
-            const constant = parseFloat(document.getElementById('constant').value);
-
-            // Draw ellipse
+            // Circle
             ctx.strokeStyle = colors.curve;
             ctx.lineWidth = 3;
             ctx.beginPath();
-
-            let firstPoint = true;
-            for (let x = -10; x <= 10; x += 0.05) {
-                const ySquared = (constant - xCoeff * x * x) / yCoeff;
-                if (ySquared >= 0) {
-                    const y = Math.sqrt(ySquared);
-                    const px = centerX + x * scale;
-                    const py = centerY - y * scale;
-                    if (firstPoint) {
-                        ctx.moveTo(px, py);
-                        firstPoint = false;
-                    } else {
-                        ctx.lineTo(px, py);
-                    }
-                }
-            }
-
-            for (let x = 10; x >= -10; x -= 0.05) {
-                const ySquared = (constant - xCoeff * x * x) / yCoeff;
-                if (ySquared >= 0) {
-                    const y = -Math.sqrt(ySquared);
-                    const px = centerX + x * scale;
-                    const py = centerY - y * scale;
-                    ctx.lineTo(px, py);
-                }
-            }
-
-            ctx.closePath();
+            ctx.arc(centerX, centerY, r * scale, 0, 2 * Math.PI);
             ctx.stroke();
 
-            // Calculate point on ellipse based on angle
-            const t = dragAngle;
-            const a = Math.sqrt(constant / xCoeff);
-            const b = Math.sqrt(constant / yCoeff);
-            const dragPoint = {
-                x: a * Math.cos(t),
-                y: b * Math.sin(t)
-            };
+            const px = centerX + x * scale;
+            const py = centerY - y * scale;
 
-            const px = centerX + dragPoint.x * scale;
-            const py = centerY - dragPoint.y * scale;
+            // Theta arc (canvas angles run clockwise, so draw counterclockwise)
+            const arcR = Math.min(r * scale * 0.35, scale * 1.4);
+            if (thetaDeg > 0) {
+                ctx.strokeStyle = colors.angle;
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, arcR, 0, -t, true);
+                ctx.stroke();
+            }
 
-            // Draw right triangle
+            // Right triangle legs
             ctx.strokeStyle = colors.triangle;
             ctx.lineWidth = 2;
             ctx.setLineDash([5, 5]);
-            
-            // Horizontal line (x)
             ctx.beginPath();
             ctx.moveTo(centerX, centerY);
             ctx.lineTo(px, centerY);
             ctx.stroke();
 
-            // Vertical line (y)
             ctx.beginPath();
             ctx.moveTo(px, centerY);
             ctx.lineTo(px, py);
             ctx.stroke();
 
-            // Calculate radius
-            const radiusVal = Math.sqrt(dragPoint.x * dragPoint.x + dragPoint.y * dragPoint.y);
-            
-            // Hypotenuse (radius)
+            // Radius (hypotenuse)
             ctx.strokeStyle = colors.radius;
             ctx.beginPath();
             ctx.moveTo(centerX, centerY);
             ctx.lineTo(px, py);
             ctx.stroke();
-            
             ctx.setLineDash([]);
 
-            // Determine if shape is compact
-            const shapeSize = Math.min(a, b);
-            const isCompact = shapeSize < 2.5;
-            
             const fontSize = Math.max(11, scale * 0.45);
-            
-            // Calculate unit vector for radius direction
-            const dx = px - centerX;
-            const dy = py - centerY;
-            const len = Math.sqrt(dx * dx + dy * dy);
-            const unitX = dx / len;
-            const unitY = dy / len;
+            const unitX = Math.cos(t);
+            const unitY = -Math.sin(t);
+            const len = r * scale;
 
-            if (isCompact) {
-                // Move all labels outside when compact
+            // θ label just outside the arc, at half the angle
+            const half = t / 2;
+            const thetaLabelDist = arcR + fontSize * 1.1;
+            drawTextWithBackground(`${thetaDeg}°`,
+                centerX + Math.cos(half) * thetaLabelDist,
+                centerY - Math.sin(half) * thetaLabelDist,
+                colors.angle, fontSize);
+
+            if (r < 2.5) {
+                // Small circle: stack labels outside
                 const labelDist = len + 35;
-                const baseLabelX = centerX + unitX * labelDist;
-                const baseLabelY = centerY + unitY * labelDist;
-                
-                // Stack labels vertically outside
-                drawTextWithBackground(`(${dragPoint.x.toFixed(1)}, ${dragPoint.y.toFixed(1)})`, 
-                                      baseLabelX, baseLabelY - 20, colors.axis, fontSize);
-                drawTextWithBackground(`r = ${radiusVal.toFixed(1)}`, 
-                                      baseLabelX, baseLabelY, colors.radius, fontSize);
-                drawTextWithBackground(`x = ${Math.abs(dragPoint.x).toFixed(1)}`, 
-                                      baseLabelX, baseLabelY + 20, colors.triangle, fontSize);
-                drawTextWithBackground(`y = ${Math.abs(dragPoint.y).toFixed(1)}`, 
-                                      baseLabelX, baseLabelY + 40, colors.triangle, fontSize);
+                const bx = centerX + unitX * labelDist;
+                const by = centerY + unitY * labelDist;
+                drawTextWithBackground(`(${fmt(x, 1)}, ${fmt(y, 1)})`, bx, by - 20, colors.axis, fontSize);
+                drawTextWithBackground(`r = ${fmt(r)}`, bx, by, colors.radius, fontSize);
+                drawTextWithBackground(`x = ${fmt(x, 1)}`, bx, by + 20, colors.triangle, fontSize);
+                drawTextWithBackground(`y = ${fmt(y, 1)}`, bx, by + 40, colors.triangle, fontSize);
             } else {
-                // Spread labels around when not compact
-                // x label on horizontal line
-                drawTextWithBackground(`x = ${Math.abs(dragPoint.x).toFixed(1)}`, 
-                                      (centerX + px) / 2, centerY + 15, colors.triangle, fontSize);
-                
-                // y label on vertical line
-                drawTextWithBackground(`y = ${Math.abs(dragPoint.y).toFixed(1)}`, 
-                                      px + 20, (centerY + py) / 2, colors.triangle, fontSize);
-                
-                // radius label on hypotenuse
-                const midX = (centerX + px) / 2;
-                const midY = (centerY + py) / 2;
-                drawTextWithBackground(`r = ${radiusVal.toFixed(1)}`, 
-                                      midX, midY, colors.radius, fontSize);
-                
-                // Coordinate label outside
-                const coordDist = len + 25;
-                const coordLabelX = centerX + unitX * coordDist;
-                const coordLabelY = centerY + unitY * coordDist;
-                drawTextWithBackground(`(${dragPoint.x.toFixed(1)}, ${dragPoint.y.toFixed(1)})`, 
-                                      coordLabelX, coordLabelY, colors.axis, fontSize);
+                if (x !== 0) {
+                    drawTextWithBackground(`x = ${fmt(x, 1)}`,
+                        (centerX + px) / 2, centerY + (y >= 0 ? 15 : -15), colors.triangle, fontSize);
+                }
+                if (y !== 0) {
+                    drawTextWithBackground(`y = ${fmt(y, 1)}`,
+                        px + (x >= 0 ? 28 : -28), (centerY + py) / 2, colors.triangle, fontSize);
+                }
+                // r label slightly off the hypotenuse, toward the outside of the triangle
+                const side = x * y >= 0 ? 1 : -1;
+                const midX = (centerX + px) / 2 + unitY * fontSize * side;
+                const midY = (centerY + py) / 2 - unitX * fontSize * side;
+                drawTextWithBackground(`r = ${fmt(r)}`, midX, midY, colors.radius, fontSize);
+
+                drawTextWithBackground(`(${fmt(x, 1)}, ${fmt(y, 1)})`,
+                    centerX + unitX * (len + 28), centerY + unitY * (len + 28), colors.axis, fontSize);
             }
 
-            // Draw draggable point
+            // Draggable point
             ctx.fillStyle = colors.point;
             ctx.beginPath();
             ctx.arc(px, py, 8, 0, 2 * Math.PI);
@@ -544,82 +602,38 @@
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawGrid();
-            drawEllipse();
+            drawCircle();
+            updatePanel();
         }
 
-        // Event listeners for sliders
-        document.getElementById('xCoeff').addEventListener('input', function() {
-            document.getElementById('xCoeffValue').textContent = this.value;
-            updateEquation();
+        scaleSlider.addEventListener('input', draw);
+        thetaSlider.addEventListener('input', function () {
+            thetaDeg = parseInt(this.value, 10);
             draw();
         });
 
-        document.getElementById('yCoeff').addEventListener('input', function() {
-            document.getElementById('yCoeffValue').textContent = this.value;
-            updateEquation();
-            draw();
-        });
-
-        document.getElementById('constant').addEventListener('input', function() {
-            document.getElementById('constantValue').textContent = this.value;
-            updateEquation();
-            draw();
-        });
-
-        // Mouse/touch dragging
-        function getAngleFromMouse(e) {
+        // Mouse/touch dragging sets θ (whole degrees, 0–360)
+        function setAngleFromEvent(e) {
             const rect = canvas.getBoundingClientRect();
-            const x = (e.clientX || e.touches[0].clientX) - rect.left;
-            const y = (e.clientY || e.touches[0].clientY) - rect.top;
-            const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2;
-            const dx = x - centerX;
-            const dy = centerY - y; // Flip y because canvas y is inverted
-            return Math.atan2(dy, dx);
+            const pt = e.touches ? e.touches[0] : e;
+            const sx = canvas.width / rect.width;
+            const sy = canvas.height / rect.height;
+            const dx = (pt.clientX - rect.left) * sx - canvas.width / 2;
+            const dy = canvas.height / 2 - (pt.clientY - rect.top) * sy;
+            let deg = Math.round(Math.atan2(dy, dx) * 180 / Math.PI);
+            if (deg < 0) deg += 360;
+            thetaDeg = deg;
+            thetaSlider.value = deg;
+            draw();
         }
 
-        canvas.addEventListener('mousedown', function(e) {
-            isDragging = true;
-            dragAngle = getAngleFromMouse(e);
-            draw();
-        });
+        canvas.addEventListener('mousedown', e => { isDragging = true; setAngleFromEvent(e); });
+        canvas.addEventListener('mousemove', e => { if (isDragging) setAngleFromEvent(e); });
+        window.addEventListener('mouseup', () => { isDragging = false; });
+        canvas.addEventListener('touchstart', e => { e.preventDefault(); isDragging = true; setAngleFromEvent(e); }, { passive: false });
+        canvas.addEventListener('touchmove', e => { if (isDragging) { e.preventDefault(); setAngleFromEvent(e); } }, { passive: false });
+        canvas.addEventListener('touchend', () => { isDragging = false; });
 
-        canvas.addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            isDragging = true;
-            dragAngle = getAngleFromMouse(e);
-            draw();
-        });
-
-        canvas.addEventListener('mousemove', function(e) {
-            if (isDragging) {
-                dragAngle = getAngleFromMouse(e);
-                draw();
-            }
-        });
-
-        canvas.addEventListener('touchmove', function(e) {
-            if (isDragging) {
-                e.preventDefault();
-                dragAngle = getAngleFromMouse(e);
-                draw();
-            }
-        });
-
-        canvas.addEventListener('mouseup', function() {
-            isDragging = false;
-        });
-
-        canvas.addEventListener('touchend', function() {
-            isDragging = false;
-        });
-
-        canvas.addEventListener('mouseleave', function() {
-            isDragging = false;
-        });
-
-        // Initialize
-        updateEquation();
         resizeCanvas();
     </script>
 </body>
